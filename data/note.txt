@@ -1,0 +1,79 @@
+Below are potential issues noted upon conversion from .osm to look into in the near future.
+
+Warning: Discarding unknown compound 'usage.branch' in type 'railway.rail|usage.branch' (first occurrence for edge '13563364').
+Warning: Discarding way '13679031' because it has only 1 node(s)
+Warning: Discarding way '13679119' because it has only 1 node(s)
+Warning: Discarding way '13680788' because it has only 1 node(s)
+Warning: Discarding unknown compound 'cycleway.lane' in type 'cycleway.lane|highway.tertiary' (first occurrence for edge '13681151').
+Warning: Discarding way '13682659' because it has only 1 node(s)
+Warning: Discarding way '71460817' because it has only 1 node(s)
+Warning: Discarding unknown compound 'cycleway.lane' in type 'cycleway.lane|highway.primary' (first occurrence for edge '129441569').
+Warning: Discarding unusable type 'aeroway.taxiway' (first occurrence for edge '191738351').
+Warning: Discarding unusable type 'aeroway.runway' (first occurrence for edge '191738362').
+Warning: Discarding unknown compound 'cycleway.track' in type 'cycleway.track|highway.tertiary' (first occurrence for edge '192952203').
+Warning: Discarding unusable type 'waterway.drain' (first occurrence for edge '202625258').
+Warning: Discarding unusable type 'aeroway.helipad' (first occurrence for edge '486471041').
+Warning: Discarding unusable type 'aeroway.apron' (first occurrence for edge '572767025').
+Warning: Discarding unknown compound 'cycleway.lane' in type 'cycleway.lane|highway.residential' (first occurrence for edge '886066110').
+Warning: Could not find corresponding edge or compatible lane for free-floating pt stop '850398487' (Orange Route). Thus, it will be removed!
+Warning: Could not find corresponding edge or compatible lane for free-floating pt stop '850398491' (Orange Route). Thus, it will be removed!
+Warning: Could not find corresponding edge or compatible lane for free-floating pt stop '850398496' (Green Route). Thus, it will be removed!
+Warning: Could not find corresponding edge or compatible lane for free-floating pt stop '850398500' (Green Route). Thus, it will be removed!
+Warning: Could not find corresponding edge or compatible lane for free-floating pt stop '850398504' (Maroon Route). Thus, it will be removed!
+Warning: Could not assign stop '850398561' to pt line '2713460' (closest edge '-202055016#7', distance 175.89). Ignoring!
+Warning: Could not assign stop '850398556' to pt line '2713460' (closest edge '-202055016#7', distance 481.37). Ignoring!
+Warning: Could not assign stop '2120312235' to pt line '2713460' (closest edge '192952205#9', distance 241.94). Ignoring!
+Warning: Could not assign stop '850398525' to pt line '2713460' (closest edge '192952205#4', distance 352.72). Ignoring!
+Warning: Could not assign stop '850398536' to pt line '2713460' (closest edge '-202055016#7', distance 352.96). Ignoring!
+Warning: Removed invalid stop '850398561' from line '2713460'.
+Warning: Removed invalid stop '850398556' from line '2713460'.
+Warning: Removed invalid stop '2120312235' from line '2713460'.
+Warning: Removed invalid stop '850398525' from line '2713460'.
+Warning: Removed invalid stop '850398536' from line '2713460'.
+Warning: Removing pt stop '2120312235' on non existing edge ''.
+Warning: Removing pt stop '850398525' on non existing edge ''.
+Warning: Removing pt stop '850398536' on non existing edge ''.
+Warning: Removing pt stop '850398556' on non existing edge ''.
+Warning: Removing pt stop '850398561' on non existing edge ''.
+Warning: Removed 6 pt stops because they could not be assigned to the network
+Warning: Ambiguity in turnarounds computation at junction '126045087'.
+Warning: Ambiguity in turnarounds computation at junction '126050556'.
+Warning: Ambiguity in turnarounds computation at junction '126050558'.
+Warning: Ambiguity in turnarounds computation at junction '126050782'.
+Warning: Ambiguity in turnarounds computation at junction '2955852174'.
+Warning: Found sharp turn with radius 8.94 at the start of edge '-13678818#3'.
+Warning: Found sharp turn with radius 3.98 at the start of edge '-13678922'.
+Warning: Found sharp turn with radius 7.12 at the start of edge '-180175684#4'.
+Warning: Found sharp turn with radius 5.04 at the start of edge '-292071086#5'.
+Warning: Found sharp turn with radius 8.94 at the end of edge '13678818#3'.
+Warning: Shape for junction '1038753367' has distance 21.80 to its given position.
+Warning: Shape for junction '1038753721' has distance 25.94 to its given position.
+Warning: Shape for junction '1038754600' has distance 68.04 to its given position.
+Warning: Shape for junction '1343601987' has distance 22.81 to its given position.
+Warning: Shape for junction '8319598836' has distance 44.36 to its given position.
+Warning: Converting invalid rail_crossing to priority junction '126064004'.
+Warning: Converting invalid rail_crossing to traffic_light at junction '126065349'.
+Warning: Lane '13563364#0_0' is not connected from any incoming edge at junction '126064004'.
+Warning: Minor green from edge '886071146#0' to edge '129441444#15' exceeds 19.44m/s. Maybe a left-turn lane is missing.
+Warning: Minor green from edge '13682429#15' to edge '-13682237#11' exceeds 19.44m/s. Maybe a left-turn lane is missing.
+Warning: Minor green from edge '-13682429#16' to edge '13682237#12' exceeds 19.44m/s. Maybe a left-turn lane is missing.
+Warning: Minor green from edge '-13682237#12' to edge '-13682429#15' exceeds 19.44m/s. Maybe a left-turn lane is missing.
+Warning: Minor green from edge '13682237#11' to edge '13682429#16' exceeds 19.44m/s. Maybe a left-turn lane is missing.
+Warning: Speed of straight connection '617352157#1_0->292188917#1_1' reduced by 7.15 due to turning radius of 35.71 (length=9.30, angle=30.26).
+Warning: Speed of straight connection '895020093_0->129441444#29_0' reduced by 11.49 due to turning radius of 17.04 (length=7.75, angle=42.34).
+Warning: Speed of straight connection '895029162_0->13678063#0_0' reduced by 8.48 due to turning radius of 16.66 (length=15.92, angle=72.52).
+Warning: Speed of straight connection '13678436_0->-13680552_0' reduced by 6.18 due to turning radius of 10.80 (length=2.46, angle=29.07).
+Warning: Speed of straight connection '202055011#4_0->13682989#0_0' reduced by 11.01 due to turning radius of 22.85 (length=1.61, angle=19.20).
+Warning: Intersecting left turns at junction '126054158' from lane '886071144#1_0' and lane '-13681639#0_0' (increase junction radius to avoid this).
+Warning: Connection '292129765#5_0->886060545#0_0' is only 0.04m short.
+Warning: 36 total messages of type: Ambiguity in turnarounds computation at junction '%'.
+Warning: 6 total messages of type: Could not assign stop '%' to pt line '%' (closest edge '%', distance %). Ignoring!
+Warning: 9 total messages of type: Could not find corresponding edge or compatible lane for free-floating pt stop '%' (%). Thus, it will be removed!
+Warning: 9 total messages of type: Discarding unusable type '%' (first occurrence for edge '%').
+Warning: 13 total messages of type: Discarding way '%' because it has only % node(s)
+Warning: 10 total messages of type: Found sharp turn with radius % at the % of edge '%'.
+Warning: 110 total messages of type: Minor green from edge '%' to edge '%' exceeds %m/s. Maybe a left-turn lane is missing.
+Warning: 6 total messages of type: Removed invalid stop '%' from line '%'.
+Warning: 6 total messages of type: Removing pt stop '%' on non existing edge '%'.
+Warning: 7 total messages of type: Shape for junction '%' has distance % to its given position.
+Warning: 66 total messages of type: Speed of % connection '%' reduced by % due to turning radius of % (length=%, angle=%).
