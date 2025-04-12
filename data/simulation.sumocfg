@@ -5,6 +5,14 @@
     </input>
     <time>
         <begin value="0"/>
-        <end value="300"/>
+        <end value="7200"/>
     </time>
+    <output>
+        <!-- Detailed trip information: departure/arrival times, travel times, etc. -->
+        <tripinfo-output value="output/tripinfo.xml" write-unfinished="true"/>
+        <!-- Floating Car Data (FCD) provides time step-level vehicle positions, speeds, etc. -->
+        <fcd-output value="output/fcd.xml"/>
+        <!-- Summary statistics of the simulation -->
+        <summary value="output/summary.xml"/>
+    </output>
 </configuration>
