@@ -38,6 +38,7 @@ avg_trip_time = df_trips['duration'].mean() if not df_trips.empty else 0
 avg_wait_time = df_trips['waiting_time'].mean() if not df_trips.empty else 0
 avg_delay = df_trips['delay'].mean() if not df_trips.empty else 0
 
+print()
 print("=== Trip Information Averages ===")
 print("Average Trip Time:", avg_trip_time)
 print("Average Waiting Time:", avg_wait_time)
@@ -47,26 +48,20 @@ print("Average Delay:", avg_delay)
 # Parsing queue information data
 # ----------------------------
 # Replace 'queueinfo.xml' with your actual queue output file name
-"""
-queueinfo_file = 'queueinfo.xml'
-try:
-    tree_queue = ET.parse(queueinfo_file)
-    root_queue = tree_queue.getroot()
-except Exception as e:
-    raise Exception(f"Error parsing {queueinfo_file}: {e}")
+queueinfo_file = './data/output/queue_length_data.csv'
+df_queue = pd.read_csv(queueinfo_file)
+# drop 0 values at the end of the simulation
+for i in range(len(df_queue)-1, 0, -1):
+    if df_queue['queue_length'][i] == 0:
+        df_queue = df_queue.drop(i)
+    else:
+        break
 
-# List to store queue lengths from different lanes or detectors
-queue_lengths = []
-# Loop through each lane (or detector) element and extract the queue length
-for lane in root_queue.findall('lane'):
-    # Here we assume that each lane element has a 'queueLength' attribute
-    # Adjust the attribute name based on your SUMO configuration
-    q_length = float(lane.attrib.get('queueLength', 0))
-    queue_lengths.append(q_length)
+max_queue_length = df_queue['queue_length'].max()
+avg_queue_length = df_queue['queue_length'].mean()
 
-# Calculate the average queue length
-avg_queue = sum(queue_lengths) / len(queue_lengths) if queue_lengths else 0
-
-print("\n=== Queue Information ===")
-print("Average Queue Length:", avg_queue)
-"""
+print()
+print("=== Queue Information Averages ===")
+print("Average Queue Length:", avg_queue_length.round(4))
+print("Maximum Queue Length:", max_queue_length)
+print()
