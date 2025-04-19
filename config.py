@@ -29,7 +29,7 @@ NUM_INTERSECTIONS = 62    # total intersections controlled
 FEATURES_PER_INT = 5
 STATE_DIM = NUM_INTERSECTIONS * FEATURES_PER_INT          # total dimension of state vector (for example, 100 intersections * 10 features each)
 ACTIONS_PER_INT = 3        # number of phases per intersection (assuming all intersections have the same count)
-BATCH_SIZE = 64
+BATCH_SIZE = 64     # increase if updates are too noisy
 GAMMA = 0.01**(1/300)       # γ^H=δ ⟹ γ=δ^(1/H)
 LEARNING_RATE = 1e-4
 TARGET_UPDATE_FREQ = 1000  # steps
@@ -38,4 +38,4 @@ REPLAY_BUFFER_CAPACITY = 100800
 # Epsilon parameters for epsilon-greedy exploration
 EPS_START = 1.0
 EPS_END = 0.05
-EPS_DECAY = 5000  # decay steps
+EPS_DECAY = 5000  # decay steps  #NOTE: slow it down if the agent “goes greedy” before it’s learned anything
