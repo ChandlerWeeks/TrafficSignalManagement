@@ -3,7 +3,7 @@
 import traci
 import random
 import numpy as np
-from config import SUMO_START_CMD, SUMO_LOAD_CMD, CONTROL_INTERVAL, MAX_STEPS
+from config import SUMO_START_CMD, SUMO_LOAD_CMD, CONTROL_INTERVAL, MAX_STEPS, FEATURES_PER_INT
 
 class SUMOEnv:
     def __init__(self):
@@ -61,19 +61,40 @@ class SUMOEnv:
         return next_state, cumulative_reward, done
     
     def get_state(self):
-        """
-        Gather the current state from SUMO.
-        For example, extract the current phase of each traffic light and dummy features.
-        Replace the dummy features with your actual sensor data.
-        """
         state = []
         for tls in self.tls_ids:
+            # 1) Current phase index
             phase = traci.trafficlight.getPhase(tls)
-            # Dummy features: normalize the phase and add random numbers for demonstration.
-            features = [phase / 10.0]
-            # Example: extend with other 9 dummy features.
-            features.extend([random.random() for _ in range(9)])
+
+            # 2) Queue length on inbound edge
+            inflows = traci.trafficlight.getControlledLinks(tls)
+            # flatten link list to edge IDs
+            edges = [link[0] for group in inflows for link in group]
+            queue_lens = [traci.edge.getLastStepHaltingNumber(e) for e in edges]
+
+            # 3) Total waiting time on those edges
+            wait_times = []
+            for e in edges:
+                for vid in traci.edge.getLastStepVehicleIDs(e):
+                    wait_times.append(traci.vehicle.getWaitingTime(vid))
+
+            # 4) Instantaneous delay estimate (timeLoss is cumulative, so use speed)
+            speeds = [traci.edge.getLastStepMeanSpeed(e) for e in edges]
+            freespeed = [traci.edge.getMaxSpeed(e) for e in edges]
+            # normalized delay per edge 1 - (speed/maxSpeed)
+            delays = [1 - s/ms for s,ms in zip(speeds, freespeed)]
+
+            features = [
+                phase / len(self.tls_ids),  # normalized phase
+                sum(queue_lens),            # total queue
+                sum(wait_times),            # total wait
+                np.mean(delays),            # average delay
+                len(edges)                  # number of inbound links
+            ]
+            assert len(features) == FEATURES_PER_INT
+
             state.extend(features)
+            
         return np.array(state, dtype=np.float32)
     
     def compute_reward(self):
