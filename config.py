@@ -25,14 +25,15 @@ CONTROL_INTERVAL = 5       # use the same action for 5 simulation steps to avoid
 
 #TODO: Fine tune these @Andrei
 # DQN hyperparameters 
-STATE_DIM = 1000           # total dimension of state vector (for example, 100 intersections * 10 features each)
-ACTIONS_PER_INT = 4        # number of phases per intersection (assuming all intersections have the same count)
-NUM_INTERSECTIONS = 100    # total intersections controlled
+NUM_INTERSECTIONS = 62    # total intersections controlled
+FEATURES_PER_INT = 5
+STATE_DIM = NUM_INTERSECTIONS * FEATURES_PER_INT          # total dimension of state vector (for example, 100 intersections * 10 features each)
+ACTIONS_PER_INT = 3        # number of phases per intersection (assuming all intersections have the same count)
 BATCH_SIZE = 64
-GAMMA = 0.99
+GAMMA = 0.01**(1/300)       # γ^H=δ ⟹ γ=δ^(1/H)
 LEARNING_RATE = 1e-4
 TARGET_UPDATE_FREQ = 1000  # steps
-REPLAY_BUFFER_CAPACITY = 100000
+REPLAY_BUFFER_CAPACITY = 100800
 
 # Epsilon parameters for epsilon-greedy exploration
 EPS_START = 1.0
