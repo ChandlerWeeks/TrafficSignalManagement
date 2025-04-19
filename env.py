@@ -1,7 +1,6 @@
 # env.py
 
 import traci
-import random
 import numpy as np
 from config import SUMO_START_CMD, SUMO_LOAD_CMD, CONTROL_INTERVAL, MAX_STEPS, FEATURES_PER_INT
 
@@ -94,25 +93,38 @@ class SUMOEnv:
             assert len(features) == FEATURES_PER_INT
 
             state.extend(features)
-            
+
         return np.array(state, dtype=np.float32)
     
     def compute_reward(self):
-        """
-        Compute reward based on your simulation metrics.
-        Here we use a dummy reward, but you can replace this with your own logic.
-        """
+
+        total_queue = 0.0
         total_wait = 0.0
-        max_q = 0
+        total_delay = 0.0
         
-        # If you have defined monitored_edges, compute waiting times and queue lengths.
-        for edge in self.monitored_edges:
-            q = traci.edge.getLastStepHaltingNumber(edge)
-            max_q = max(max_q, q)
-            veh_ids = traci.edge.getLastStepVehicleIDs(edge)
-            for veh in veh_ids:
-                total_wait += traci.vehicle.getWaitingTime(veh)
-        reward = - (total_wait + 5 * max_q)
+        # Loop over each traffic light exactly as in get_state()
+        for tls in self.tls_ids:
+            # 1) gather the controlled edges
+            inflows = traci.trafficlight.getControlledLinks(tls)
+            edges = [link[0] for group in inflows for link in group]
+            
+            # 2) queue lengths
+            qlens = [traci.edge.getLastStepHaltingNumber(e) for e in edges]
+            total_queue += sum(qlens)
+            
+            # 3) waiting times
+            for e in edges:
+                for vid in traci.edge.getLastStepVehicleIDs(e):
+                    total_wait += traci.vehicle.getWaitingTime(vid)
+            
+            # 4) instantaneous delay estimate
+            speeds    = [traci.edge.getLastStepMeanSpeed(e) for e in edges]
+            freespeed = [traci.edge.getMaxSpeed(e)         for e in edges]
+            # sum of (1 - speed/maxSpeed) over all edges
+            total_delay += sum((1 - s/ms) for s,ms in zip(speeds, freespeed) if ms>0)
+        
+        reward = - ( total_queue + total_wait + 0.5 * total_delay )
+        
         return reward
     
     def close(self):
