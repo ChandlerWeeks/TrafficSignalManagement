@@ -1,9 +1,15 @@
+import sys, os
+#sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 import argparse
-import os
 from utils.config_parser import load_config
 from utils.logger import Logger
 from env.city_env import CityEnv
 from agents.policies import get_agent_class
+
+# from traffic_signal_nn.utils.config_parser import load_config
+# from traffic_signal_nn.utils.logger        import Logger
+# from traffic_signal_nn.env.city_env       import CityEnv
+# from traffic_signal_nn.agents.policies    import get_agent_class
 
 def main():
     parser = argparse.ArgumentParser(description="Multi‑RL Traffic Signal Control")
