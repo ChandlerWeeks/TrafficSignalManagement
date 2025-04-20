@@ -131,15 +131,35 @@ However, there are a variety of challenges with implementation. One challenge is
 
 \section{Development plan}
 
-Implementing a traffic simulation for Starkville, MS using CityFlow and Q-Learning over a two-month period, we will begin with the research and environment setup in the first two weeks. This includes installing and configuring CityFlow, generating traffic flows using built-in tools, and setting up a simulation model based on the Starkville road network and intersections. If real-world traffic data is available, we will incorporate it to enhance accuracy; otherwise, default CityFlow scenarios will be used. During weeks three to six, we will develop and train the Q-Learning algorithm by optimizing hyperparameters such as learning rate and exploration rate and running simulations to evaluate its performance. The effectiveness of Q-Learning-controlled signals will be compared against traditional fixed-time signals using metrics like vehicle waiting times and overall traffic flow improvements. In the last two weeks, we will focus on optimizing and validating the model, testing it under different traffic conditions specific to Starkville, Ms. The model will be deployed in a full-scale SUMO simulation, validated against available traffic data, and adjusted accordingly. The project will conclude with documentation of the implementation details and findings, while also identifying opportunities for future improvements, such as deep reinforcement learning for more advanced control. Ultimately, this project aims to develop an intelligent traffic light control system that reduces congestion and improves traffic efficiency in Starkville, MS. 
+Implementing a traffic simulation for Starkville, MS using CityFlow and Q-Learning over a two-month period, we will begin with the research and environment setup in the first two weeks. This includes installing and configuring CityFlow, generating traffic flows using built-in tools, and setting up a simulation model based on the Starkville road network and intersections. If real-world traffic data is available, we will incorporate it to enhance accuracy; otherwise, default CityFlow scenarios will be used. During weeks three to six, we will develop and train the Q-Learning algorithm by optimizing hyperparameters such as learning rate and exploration rate and running simulations to evaluate its performance. The effectiveness of Q-Learning-controlled signals will be compared against traditional fixed-time signals using metrics like vehicle waiting times and overall traffic flow improvements. In the last two weeks, we will focus on optimizing and validating the model, testing it under different traffic conditions specific to Starkville, Ms. The model will be deployed in a full-scale SUMO simulation, validated against available traffic data, and adjusted accordingly. The project will conclude with documentation of the implementation details and findings, while also identifying opportunities for future improvements, such as deep reinforcement learning for more advanced control. Ultimately, this project aims to develop an intelligent traffic light control system that reduces congestion and improves traffic efficiency in Starkville, Mississippi.
 
-\section{Implementation Details}
+\section{Implemented Application}
 
-\subsection{Simulation}
+\subsection{Simulation Setup}
 
 After beginning implementation we decided that CityFlow was not the appropriate tool for this problem, despite our research. While a powerful tool, it struggled to handle the data format provided from OSM data, resulting in slow performance and broken intersections. We then decided moving to the SUMO simulator was a more worthwhile decision, as its efficency has improved over time and documentation is more appropriate for our specific research area. 
 
+Once SUMO was installed, we downloaded public data for the city of Starkville Mississippi's road structure using the tool open street map, and used SUMO's netedit to process the data into a useable format. Some changes were made, such as fixing traffic signal placement using junctions, and fixing non-signal based intersection interactions. 
 
+Our ultimate goal with this project is to test how neural network influenced traffic signals direct the flow of traffic, so we needed to setup various simulation environments to simulate realistic traffic scenarios within Starkville. To do this, we used SUMO's built in flow generator, with various parameters to result in light, medium, and intense traffic scenarios. This would allow us to test how each method of traffic signal control reacts to various events such as morning and afternoon rush hours, post game traffic, or light summer traffic. 
+
+Using the setup configuration file, we can use SUMO GUI, which comes bundled with the installation package of SUMO. This tools allows us to run a visualization of the simulation with regards to the currently implemented method of traffic signal control, and make observations from the point of view of drivers without quantitative analysis, making observations about our model to make improvements. 
+
+**INSERT IMAGE OF SUMO RUNNING**
+
+\subsection{Benchmarking}
+
+In order to properly evaluate the performance of threshold and neural network models, a method of evaluation was needed beyond qualitative methods, such as observation or reivew. As a result we implemented various benchmarks to quantitatively decide the quality of a methods approach. 
+
+Our first method of benchmark involves calculating the average waiting time of a vehicle. This is the most likely representation of how frustrated one might feel.
+
+The next is the average trip time
+
+Finally we calculated information about queue length. 
+
+\subsection{Neural Network Implementation}
+
+\section{Results over baseline}
 
 \section{ACKNOWLEDGMENT OF LLM USE}
 
