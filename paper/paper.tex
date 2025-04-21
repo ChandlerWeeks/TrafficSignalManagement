@@ -145,17 +145,23 @@ Our ultimate goal with this project is to test how neural network influenced tra
 
 Using the setup configuration file, we can use SUMO GUI, which comes bundled with the installation package of SUMO. This tools allows us to run a visualization of the simulation with regards to the currently implemented method of traffic signal control, and make observations from the point of view of drivers without quantitative analysis, making observations about our model to make improvements. 
 
-**INSERT IMAGE OF SUMO RUNNING**
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{SUMO_RUNNING.png}
+    \caption{Example of SUMO running in through a GUI}
+\end{figure}
 
 \subsection{Benchmarking}
 
 In order to properly evaluate the performance of threshold and neural network models, a method of evaluation was needed beyond qualitative methods, such as observation or reivew. As a result we implemented various benchmarks to quantitatively decide the quality of a methods approach. 
 
-Our first method of benchmark involves calculating the average waiting time of a vehicle. This is the most likely representation of how frustrated one might feel.
+Our first method of benchmark involves calculating the average waiting time of a vehicle. This is the most likely representation of how frustrated one might feel. A lower waiting time is therefore a great benchmark, as it shows that traffic is moving and drivers are less likely to get frustrated and develop road rage or get into an accident. 
 
-The next is the average trip time
+The next is the average trip time. Becuase we will benchmark similar environments, we can get the average trip times of all combined vehicles in a simulation, and use it as a quantitative performance metric. Quicker trips indicates a successful traffic signal control implementation, as people can get to their end destination quicker, the entire point of driving. It also serves as a benchmark for other metrics, likely indicating shorter queue lengths, less stops, and less time waiting at stops on average. 
 
-Finally we calculated information about queue length. 
+Our final benchmark involves calculating queue lengths, or the average length of cars in line at an intersection. We can calulate both the max and average, to ensure the model is acting appropriately and not building super long lines to get the average down. A long line indicates that the model has a lot of buildup, and might fill later intersections with traffic, resulting in frustrated drivers and numerous stops if not carefully considered; therefore, it is critical that we minimize both the average queue length and the max queue length with our neural network. 
+
+Notes on this...
 
 \subsection{Neural Network Implementation}
 

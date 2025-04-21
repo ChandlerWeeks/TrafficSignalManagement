@@ -149,6 +149,11 @@ INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm1
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
+INPUT ./SUMO_RUNNING.png
+INPUT ./SUMO_RUNNING.png
+INPUT ./SUMO_RUNNING.png
+INPUT ./SUMO_RUNNING.png
+INPUT ./SUMO_RUNNING.png
 INPUT paper.aux
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb
