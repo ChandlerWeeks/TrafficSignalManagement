@@ -1,4 +1,3 @@
-# traffic_signal_nn/agents/policies.py
 import random
 import torch
 import torch.nn.functional as F
@@ -12,18 +11,25 @@ from agents.replay_buffer import ReplayBuffer
 class DQNAgent:
     """One‑intersection DQN."""
     def __init__(self, state_dim, action_dim, cfg):
+        # device setup
+        self.device = torch.device(
+            cfg.get('DEVICE', 'cuda' if torch.cuda.is_available() else 'cpu')
+        )
+        # network & target
         hidden = list(map(int, cfg.get('HIDDEN', '64,64').split(',')))
-        self.net    = build_mlp(state_dim, action_dim, hidden)
-        self.target = build_mlp(state_dim, action_dim, hidden)
+        self.net    = build_mlp(state_dim, action_dim, hidden).to(self.device)
+        self.target = build_mlp(state_dim, action_dim, hidden).to(self.device)
         self.target.load_state_dict(self.net.state_dict())
 
-        self.opt       = optim.Adam(self.net.parameters(),
-                                    lr=cfg.get('LR', 1e-3))
+        # optimizer & hyperparams
+        self.opt       = optim.Adam(self.net.parameters(), lr=cfg.get('LR', 1e-3))
         self.gamma     = cfg.get('GAMMA', 0.99)
         self.eps       = cfg.get('EPS_START', 1.0)
         self.eps_end   = cfg.get('EPS_END', 0.05)
         self.eps_decay = cfg.get('EPS_DECAY', 0.995)
+        self.action_dim = action_dim     # ① cache once
 
+        # replay buffer
         self.buf       = ReplayBuffer(cfg.get('BUFFER_SIZE', 10000))
         self.batch     = cfg.get('BATCH_SIZE', 32)
         self.update_fr = cfg.get('TARGET_UPDATE_FREQ', 10)
@@ -32,10 +38,11 @@ class DQNAgent:
     # --------------- public ----------------
     def select_action(self, state, greedy=False):
         if (not greedy) and random.random() < self.eps:
-            return random.randrange(self.net[-1].out_features)
-        with torch.no_grad():
-            q = self.net(torch.tensor(state, dtype=torch.float32))
-            return int(q.argmax())
+            return random.randrange(self.action_dim)          # ② cached value
+        with torch.inference_mode():                          # slightly faster
+            s = torch.as_tensor(state, dtype=torch.float32,
+                                device=self.device).unsqueeze(0)
+            return int(self.net(s).argmax(dim=1).item())
 
     def remember(self, s, a, r, ns, done):
         self.buf.add(s, a, r, ns, done)
@@ -43,12 +50,14 @@ class DQNAgent:
     def learn(self):
         if len(self.buf) < self.batch:
             return
-        s, a, r, ns, d = self.buf.sample(self.batch)
-        s  = torch.tensor(s,  dtype=torch.float32)
-        a  = torch.tensor(a,  dtype=torch.long).unsqueeze(1)
-        r  = torch.tensor(r,  dtype=torch.float32).unsqueeze(1)
-        ns = torch.tensor(ns, dtype=torch.float32)
-        d  = torch.tensor(d,  dtype=torch.float32).unsqueeze(1)
+
+        ss, aa, rr, nss, dd = self.buf.sample(self.batch)
+        # batch‐tensorize on device
+        s  = torch.as_tensor(ss,  dtype=torch.float32, device=self.device)
+        a  = torch.as_tensor(aa,  dtype=torch.long,    device=self.device).unsqueeze(1)
+        r  = torch.as_tensor(rr,  dtype=torch.float32, device=self.device).unsqueeze(1)
+        ns = torch.as_tensor(nss, dtype=torch.float32, device=self.device)
+        d  = torch.as_tensor(dd,  dtype=torch.float32, device=self.device).unsqueeze(1)
 
         q_pred = self.net(s).gather(1, a)
         with torch.no_grad():
@@ -71,7 +80,7 @@ class DQNAgent:
         torch.save(self.net.state_dict(), path)
 
     def load(self, path):
-        self.net.load_state_dict(torch.load(path))
+        self.net.load_state_dict(torch.load(path, map_location=self.device))
         self.target.load_state_dict(self.net.state_dict())
 
 
@@ -79,7 +88,7 @@ class DQNAgent:
 class MultiDQNAgent:
     """
     Lightweight wrapper: one DQNAgent per TLS.
-    state_dims / action_dims are *lists* with length N_tls.
+    state_dims / action_dims are *lists* with length N_tls.
     """
     def __init__(self, state_dims, action_dims, cfg):
         assert len(state_dims) == len(action_dims)
@@ -109,5 +118,5 @@ class MultiDQNAgent:
             ag.load(f"{prefix}_tls{i}.pth")
 
 
-# Allow:  from agents.policies import Agent
+# Allow: from agents.policies import Agent
 Agent = MultiDQNAgent

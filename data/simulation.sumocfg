@@ -1,18 +1,17 @@
 <configuration>
   <input>
     <net-file value="map.net.xml"/>
-    <route-files value="routes.rou.xml"/>
+    <route-files value="flow2.rou.xml"/>
   </input>
 
   <time>
     <begin       value="0"/>
     <end         value="100"/>
-    <step-length value="1.0"/>   <!-- advance 1 second per step -->
+    <step-length value="1.0"/>
   </time>
 
   <output>
     <tripinfo-output value="output/tripinfo.xml" write-unfinished="true"/>
-    <fcd-output      value="output/fcd.xml"/>
     <summary         value="output/summary.xml"/>
   </output>
 </configuration>
