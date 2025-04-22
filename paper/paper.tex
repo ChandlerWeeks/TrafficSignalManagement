@@ -161,9 +161,11 @@ The next is the average trip time. Becuase we will benchmark similar environment
 
 Our final benchmark involves calculating queue lengths, or the average length of cars in line at an intersection. We can calulate both the max and average, to ensure the model is acting appropriately and not building super long lines to get the average down. A long line indicates that the model has a lot of buildup, and might fill later intersections with traffic, resulting in frustrated drivers and numerous stops if not carefully considered; therefore, it is critical that we minimize both the average queue length and the max queue length with our neural network. 
 
-Notes on this...
+Because there are several benchmarks, we will consider our model successful if any evaluation metric improves without a meaningful reducing another metric. For example, if average trip time decreases, but the other metrics remain very similar to their threshold results, we will consider the model a success.
 
 \subsection{Neural Network Implementation}
+
+
 
 \section{Results over baseline}
 
