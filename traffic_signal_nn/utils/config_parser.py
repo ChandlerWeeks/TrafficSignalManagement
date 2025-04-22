@@ -1,29 +1,24 @@
-# traffic_signal_nn/utils/config_parser.py
-
 import configparser
 
-def load_config(path):
-    """
-    Read INI file and return a dict-of-dicts: {SECTION: {KEY: value, …}, …}
-    Values are auto-cast to int/float/bool when possible.
-    """
-    parser = configparser.ConfigParser()
-    parser.read(path)
-    cfg = {}
-    for section in parser.sections():
-        d = {}
-        for key, val in parser[section].items():
-            d[key.upper()] = _auto_cast(val)
-        cfg[section.upper()] = d
-    return cfg
 
-def _auto_cast(val):
+def _auto(val: str):
     for caster in (int, float):
         try:
             return caster(val)
         except ValueError:
             pass
-    low = val.lower()
-    if low in ("true","false"):
-        return low == "true"
+    if val.lower() in ('true', 'false'):
+        return val.lower() == 'true'
     return val
+
+
+def load_config(path: str) -> dict:
+    """
+    INI → {SECTION: {KEY: value}}
+    """
+    p = configparser.ConfigParser()
+    p.read(path, encoding='utf‑8')
+    out = {}
+    for sec in p.sections():
+        out[sec.upper()] = {k.upper(): _auto(v) for k, v in p[sec].items()}
+    return out

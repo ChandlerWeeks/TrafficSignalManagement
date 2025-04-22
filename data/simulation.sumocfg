@@ -1,18 +1,19 @@
 <configuration>
-    <input>
-        <net-file value="map.net.xml"/>
-        <route-files value="routes.rou.xml"/>
-    </input>
-    <time>
-        <begin value="0"/>
-        <end value="7200"/>
-    </time>
-    <output>
-        <!-- Detailed trip information: departure/arrival times, travel times, etc. -->
-        <tripinfo-output value="output/tripinfo.xml" write-unfinished="true"/>
-        <!-- Floating Car Data (FCD) provides time step-level vehicle positions, speeds, etc. -->
-        <fcd-output value="output/fcd.xml"/>
-        <!-- Summary statistics of the simulation -->
-        <summary value="output/summary.xml"/>
-    </output>
+  <input>
+    <net-file value="map.net.xml"/>
+    <route-files value="routes.rou.xml"/>
+  </input>
+
+  <time>
+    <begin       value="0"/>
+    <end         value="100"/>
+    <step-length value="1.0"/>   <!-- advance 1 second per step -->
+  </time>
+
+  <output>
+    <tripinfo-output value="output/tripinfo.xml" write-unfinished="true"/>
+    <fcd-output      value="output/fcd.xml"/>
+    <summary         value="output/summary.xml"/>
+  </output>
 </configuration>
+

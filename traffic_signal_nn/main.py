@@ -1,73 +1,69 @@
-import sys, os
-#sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+import os
 import argparse
+import traci
+
 from utils.config_parser import load_config
-from utils.logger import Logger
-from env.city_env import CityEnv
-from agents.policies import get_agent_class
+from env.multi_env       import CityEnv
+from agents.policies     import Agent           # MultiDQNAgent alias
+from utils.logger        import Logger
 
-# from traffic_signal_nn.utils.config_parser import load_config
-# from traffic_signal_nn.utils.logger        import Logger
-# from traffic_signal_nn.env.city_env       import CityEnv
-# from traffic_signal_nn.agents.policies    import get_agent_class
 
-def main():
-    parser = argparse.ArgumentParser(description="Multi‑RL Traffic Signal Control")
-    parser.add_argument("--config",     required=True, help="Path to .ini config")
-    parser.add_argument("mode",         choices=["train","eval","demo"],
-                        help="train: learn; eval: run saved model; demo: render only")
-    args = parser.parse_args()
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--config', required=True)
+    ap.add_argument('mode', choices=['train', 'eval'])
+    args = ap.parse_args()
 
-    # load all sections into nested dicts
-    cfg = load_config(args.config)
+    cfg        = load_config(args.config)
+    env_cfg    = cfg['ENV']
+    agent_cfg  = cfg.get('AGENT', {})
+    log_cfg    = cfg.get('LOG',  {})
+    train_cfg  = cfg.get('TRAIN', {})
+    eval_cfg   = cfg.get('EVAL',  {})
 
-    # make env & agent
-    env_cls = CityEnv
-    env     = env_cls(cfg["ENV"])
-    Agent   = get_agent_class(cfg["AGENT"]["NAME"])
-    agent   = Agent(env.observation_space,
-                    env.action_space,
-                    cfg["AGENT"])
+    env    = CityEnv(env_cfg)
+    agent  = Agent(env.observation_space,  # list[int]
+                   env.action_space,       # list[int]
+                   agent_cfg)
+    logger = Logger(log_cfg.get('LOG_DIR', 'logs'))
 
-    # make logger
-    logger = Logger(cfg["LOG"]["LOG_DIR"])
-
-    if args.mode == "train":
-        for episode in range(cfg["TRAIN"]["EPISODES"]):
-            state, done, ep_reward = env.reset(), False, 0.0
+    if args.mode == 'train':
+        episodes = int(train_cfg.get('EPISODES', 0))
+        for ep in range(episodes):
+            states, done, ep_ret = env.reset(), False, 0.0
             while not done:
-                action = agent.select_action(state)
-                next_state, reward, done, _ = env.step(action)
-                agent.remember(state, action, reward, next_state, done)
+                actions            = agent.select_action(states)
+                next_s, r, done, _ = env.step(actions)
+
+                # broadcast r / done to per‑TLS lists
+                n_tls = len(actions)
+                agent.remember(states, actions,
+                               [r] * n_tls, next_s,
+                               [done] * n_tls)
                 agent.learn()
-                state, ep_reward = next_state, ep_reward + reward
 
-            agent.update_target_network()
-            logger.log_episode(episode, ep_reward, agent)
+                states = next_s
+                ep_ret += r
+            logger.log_episode(ep, ep_ret)
 
-        os.makedirs(logger.log_dir, exist_ok=True)
-        agent.save(os.path.join(logger.log_dir, "agent.pth"))
-
-    elif args.mode == "eval":
-        agent.load(os.path.join(cfg["LOG"]["LOAD_DIR"], "agent.pth"))
-        returns = []
-        for episode in range(cfg["EVAL"]["EPISODES"]):
-            state, done, ep_reward = env.reset(), False, 0.0
+        agent.save(os.path.join(logger.log_dir,
+                                agent_cfg.get('NAME', 'dqn_city')))
+    else:                             # ---------- eval ----------
+        episodes = int(eval_cfg.get('EPISODES', 0))
+        returns  = []
+        for ep in range(episodes):
+            s, done, tot = env.reset(), False, 0.0
             while not done:
-                action = agent.select_action(state)
-                state, reward, done, _ = env.step(action)
-                ep_reward += reward
-            returns.append(ep_reward)
-        print(f"Mean return over {len(returns)} episodes: {sum(returns)/len(returns)}")
+                a            = agent.select_action(s, evaluate=True)
+                s, r, done, _ = env.step(a)
+                tot         += r
+            returns.append(tot)
+            print(f'Episode {ep}: {tot:.1f}')
+        if returns:
+            print(f'Mean return: {sum(returns)/len(returns):.1f}')
 
-    elif args.mode == "demo":
-        agent.load(os.path.join(cfg["LOG"]["LOAD_DIR"], "agent.pth"))
-        state, done = env.reset(), False
-        while not done:
-            action = agent.select_action(state)
-            state, _, done, _ = env.step(action)
-            env.render()  # if you implement render()
+    env.close()
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()
-

@@ -1,25 +1,28 @@
-# traffic_signal_nn/utils/logger.py
-
 import os
 from torch.utils.tensorboard import SummaryWriter
 
 class Logger:
-    """
-    Wrap TF‑Board and CSV logging.
-    """
     def __init__(self, log_dir):
         os.makedirs(log_dir, exist_ok=True)
-        self.writer = SummaryWriter(log_dir)
+        self.writer  = SummaryWriter(log_dir)
         self.log_dir = log_dir
 
-    def log_episode(self, episode, reward, agent):
+    def log_episode(self, ep: int, reward: float, agent=None):
         """
-        Log scalar metrics at end of each episode.
+        Log one episode.
+        If a third argument (`agent`) is supplied we can also log per‑agent
+        statistics, otherwise we ignore it.
         """
-        self.writer.add_scalar("Reward/episode", reward, episode)
-        # example: if agent tracks loss
-        if hasattr(agent, "loss"):
-            self.writer.add_scalar("Loss/td_loss", agent.loss, episode)
+        self.writer.add_scalar('Reward/Episode', reward, ep)
+
+        # optional per‑TLS loss/epsilon etc.
+        if agent is not None and hasattr(agent, "agents"):
+            for i, ag in enumerate(agent.agents):
+                if hasattr(ag, "eps"):
+                    self.writer.add_scalar(f'TLS{i}/Epsilon', ag.eps, ep)
+                if hasattr(ag, "step_n"):
+                    self.writer.add_scalar(f'TLS{i}/Steps', ag.step_n, ep)
 
     def close(self):
         self.writer.close()
+
