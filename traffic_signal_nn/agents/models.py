@@ -1,14 +1,9 @@
-# traffic_signal_nn/agents/models.py
-
 import torch.nn as nn
 
-def build_mlp(input_dim, output_dim, hidden_units):
-    """
-    Construct a plain MLP: FC → ReLU → … → FC.
-    """
+def build_mlp(input_dim, output_dim, hidden_layers):
     layers = []
     prev = input_dim
-    for h in hidden_units:
+    for h in hidden_layers:
         layers.append(nn.Linear(prev, h))
         layers.append(nn.ReLU())
         prev = h
