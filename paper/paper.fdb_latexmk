@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1745032794.55468 "/Users/chandler/LocalDesk/CityFlow/Untitled/TrafficSignalManagement/paper/paper.tex" "paper.pdf" "paper" 1745032795.12605 0
-  "/Users/chandler/LocalDesk/CityFlow/Untitled/TrafficSignalManagement/paper/paper.tex" 1745032794.38232 28414 63bb205d3389ab1ca72d4ca18ee281d6 ""
+["pdflatex"] 1745357134.44924 "/Users/chandler/LocalDesk/CityFlow/Untitled/TrafficSignalManagement/paper/paper.tex" "paper.pdf" "paper" 1745357135.65065 0
+  "/Users/chandler/LocalDesk/CityFlow/Untitled/TrafficSignalManagement/paper/paper.tex" 1745357134.27476 34694 8825a9fc7091aa2767f958a183ab7b49 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -58,8 +58,9 @@
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "Diagram Timeline.png" 1745032428.39611 101783 c716925677ae87d71bdcc14d02bf9fc7 ""
   "Research Taxonomy.png" 1745032395.59561 66397 936b6298383a520a1928d545ff6bd7d0 ""
-  "paper.aux" 1745032795.08132 3119 41b4a6b7dbd635514e23b7af1b27e5f2 "pdflatex"
-  "paper.tex" 1745032794.38232 28414 63bb205d3389ab1ca72d4ca18ee281d6 ""
+  "SUMO_RUNNING.png" 1745198890.84185 301478 20e1c1f451a4773d2fc8aec3f48b1eec ""
+  "paper.aux" 1745357135.61525 3629 cc0c03822a4f127853dec7b910509c22 "pdflatex"
+  "paper.tex" 1745357134.27476 34694 8825a9fc7091aa2767f958a183ab7b49 ""
   (generated)
   "paper.aux"
   "paper.log"

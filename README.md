@@ -16,5 +16,5 @@ run SUMO through SUMO GUI application, and varry the traffic for various environ
 Benchmark.py - Benchmarks the implemented traffic signal controllers based on the behavior of the cars in the simulation. 
 get_queue_length.py - Get the benchmark of average queue length of a light at any point in time. 
 
-export PATH="/Library/Frameworks/EclipseSUMO.framework/Versions/1.22.0/EclipseSUMO/bin:$PATH"
-source ~/.zshrc
+python -m traffic_signal_nn.eval.evaluator --config traffic_signal_nn/config/config_dqn_city.ini
+python traffic_signal_nn/main.py --config traffic_signal_nn/config/config_dqn_city.ini train

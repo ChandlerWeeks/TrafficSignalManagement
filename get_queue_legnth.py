@@ -11,31 +11,34 @@ import sys
 import csv
 import traci
 import subprocess
+import argparse
 
-# Set SUMO_HOME and append tools path
-SUMO_HOME = "/Library/Frameworks/EclipseSUMO.framework/Versions/1.22.0/EclipseSUMO"
-if not os.path.exists(SUMO_HOME):
-    raise EnvironmentError("SUMO_HOME path does not exist. Please check the installation path.")
+# -- figure out where SUMO is installed --
+sumo_home = os.environ.get("SUMO_HOME")
+if sumo_home:
+    tools_path = os.path.join(sumo_home, "tools")
+    if os.path.isdir(tools_path):
+        sys.path.insert(0, tools_path)
+    else:
+        print(f"⚠️  SUMO_HOME is set to '{sumo_home}', but no 'tools' dir found there.")
+        print("   Continuing anyway—assuming 'sumo' and 'sumo-gui' are on your PATH.")
+else:
+    print("⚠️  SUMO_HOME not set—assuming 'sumo' and 'sumo-gui' are on your PATH.")
 
-os.environ["SUMO_HOME"] = SUMO_HOME
-tools_path = os.path.join(SUMO_HOME, "tools")
-if tools_path not in sys.path:
-    sys.path.append(tools_path)
-
-# Optional: log where we're calling sumo from
 def check_sumo():
     try:
-        result = subprocess.run(["which", "sumo"], capture_output=True, text=True)
-        print("Using SUMO at:", result.stdout.strip())
-        result = subprocess.run(["sumo", "-v"], capture_output=True, text=True)
-        print("SUMO version:", result.stdout.strip())
+        which = subprocess.run(["where" if os.name == "nt" else "which", "sumo"],
+                               capture_output=True, text=True).stdout.strip()
+        print("Using SUMO at:", which or "<not found>")
+        version = subprocess.run(["sumo", "-v"], capture_output=True, text=True).stdout.strip()
+        print("SUMO version:", version or "<unknown>")
     except Exception as e:
         print("Error running SUMO:", e)
 
 check_sumo()
 
 def get_queue_length(sim_cfg, output_csv="./data/output/queue_length_data.csv", max_steps=None):
-    print(f"Starting SUMO simulation with config: {sim_cfg}")
+    print(f"\n▶ Starting SUMO simulation with config: {sim_cfg}")
     traci.start(["sumo", "-c", sim_cfg])
 
     step = 0
@@ -66,10 +69,19 @@ def get_queue_length(sim_cfg, output_csv="./data/output/queue_length_data.csv", 
         writer.writerow(["step", "queue_length"])
         writer.writerows(queue_data)
 
-    print(f"✅ Queue length data written to {output_csv}")
+    print(f"\n✅ Queue length data written to {output_csv}")
     print("✅ Simulation complete.")
 
 if __name__ == "__main__":
-    SUMO_CONFIG = "./data/simulation.sumocfg"
-    MAX_STEPS = 7200  # 2 hours
-    get_queue_length(sim_cfg=SUMO_CONFIG, max_steps=MAX_STEPS)
+    p = argparse.ArgumentParser()
+    p.add_argument('--config', '-c', default="./data/simulation.sumocfg",
+                   help="path to your SUMO .sumocfg file")
+    p.add_argument('--output', '-o', default="./data/output/queue_length_data.csv",
+                   help="where to write the CSV")
+    p.add_argument('--steps', '-s', type=int, default=None,
+                   help="max number of simulation steps (default=run until done)")
+    args = p.parse_args()
+
+    get_queue_length(sim_cfg=args.config,
+                     output_csv=args.output,
+                     max_steps=args.steps)

@@ -131,15 +131,53 @@ However, there are a variety of challenges with implementation. One challenge is
 
 \section{Development plan}
 
-Implementing a traffic simulation for Starkville, MS using CityFlow and Q-Learning over a two-month period, we will begin with the research and environment setup in the first two weeks. This includes installing and configuring CityFlow, generating traffic flows using built-in tools, and setting up a simulation model based on the Starkville road network and intersections. If real-world traffic data is available, we will incorporate it to enhance accuracy; otherwise, default CityFlow scenarios will be used. During weeks three to six, we will develop and train the Q-Learning algorithm by optimizing hyperparameters such as learning rate and exploration rate and running simulations to evaluate its performance. The effectiveness of Q-Learning-controlled signals will be compared against traditional fixed-time signals using metrics like vehicle waiting times and overall traffic flow improvements. In the last two weeks, we will focus on optimizing and validating the model, testing it under different traffic conditions specific to Starkville, Ms. The model will be deployed in a full-scale SUMO simulation, validated against available traffic data, and adjusted accordingly. The project will conclude with documentation of the implementation details and findings, while also identifying opportunities for future improvements, such as deep reinforcement learning for more advanced control. Ultimately, this project aims to develop an intelligent traffic light control system that reduces congestion and improves traffic efficiency in Starkville, MS. 
+Implementing a traffic simulation for Starkville, MS using CityFlow and Q-Learning over a two-month period, we will begin with the research and environment setup in the first two weeks. This includes installing and configuring CityFlow, generating traffic flows using built-in tools, and setting up a simulation model based on the Starkville road network and intersections. If real-world traffic data is available, we will incorporate it to enhance accuracy; otherwise, default CityFlow scenarios will be used. During weeks three to six, we will develop and train the Q-Learning algorithm by optimizing hyperparameters such as learning rate and exploration rate and running simulations to evaluate its performance. The effectiveness of Q-Learning-controlled signals will be compared against traditional fixed-time signals using metrics like vehicle waiting times and overall traffic flow improvements. In the last two weeks, we will focus on optimizing and validating the model, testing it under different traffic conditions specific to Starkville, Ms. The model will be deployed in a full-scale SUMO simulation, validated against available traffic data, and adjusted accordingly. The project will conclude with documentation of the implementation details and findings, while also identifying opportunities for future improvements, such as deep reinforcement learning for more advanced control. Ultimately, this project aims to develop an intelligent traffic light control system that reduces congestion and improves traffic efficiency in Starkville, Mississippi.
 
-\section{Implementation Details}
+\section{Implemented Application}
 
-\subsection{Simulation}
+\subsection{Simulation Setup}
 
 After beginning implementation we decided that CityFlow was not the appropriate tool for this problem, despite our research. While a powerful tool, it struggled to handle the data format provided from OSM data, resulting in slow performance and broken intersections. We then decided moving to the SUMO simulator was a more worthwhile decision, as its efficency has improved over time and documentation is more appropriate for our specific research area. 
 
+Once SUMO was installed, we downloaded public data for the city of Starkville Mississippi's road structure using the tool open street map, and used SUMO's netedit to process the data into a useable format. Some changes were made, such as fixing traffic signal placement using junctions, and fixing non-signal based intersection interactions. 
 
+Our ultimate goal with this project is to test how neural network influenced traffic signals direct the flow of traffic, so we needed to setup various simulation environments to simulate realistic traffic scenarios within Starkville. To do this, we used SUMO's built in flow generator, with various parameters to result in light, medium, and intense traffic scenarios. This would allow us to test how each method of traffic signal control reacts to various events such as morning and afternoon rush hours, post game traffic, or light summer traffic. 
+
+Using the setup configuration file, we can use SUMO GUI, which comes bundled with the installation package of SUMO. This tools allows us to run a visualization of the simulation with regards to the currently implemented method of traffic signal control, and make observations from the point of view of drivers without quantitative analysis, making observations about our model to make improvements. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{SUMO_RUNNING.png}
+    \caption{Example of SUMO running in through SUMO-GUI}
+\end{figure}
+
+\subsection{Benchmarking}
+
+In order to properly evaluate the performance of threshold and neural network models, a method of evaluation was needed beyond qualitative methods, such as observation or reivew. As a result we implemented various benchmarks to quantitatively decide the quality of a methods approach. 
+
+Our first method of benchmark involves calculating the average waiting time of a vehicle. This is the most likely representation of how frustrated one might feel. A lower waiting time is therefore a great benchmark, as it shows that traffic is moving and drivers are less likely to get frustrated and develop road rage or get into an accident. 
+
+The next is the average trip time. Becuase we will benchmark similar environments, we can get the average trip times of all combined vehicles in a simulation, and use it as a quantitative performance metric. Quicker trips indicates a successful traffic signal control implementation, as people can get to their end destination quicker, the entire point of driving. It also serves as a benchmark for other metrics, likely indicating shorter queue lengths, less stops, and less time waiting at stops on average. 
+
+Our final benchmark involves calculating queue lengths, or the average length of cars in line at an intersection. We can calulate both the max and average, to ensure the model is acting appropriately and not building super long lines to get the average down. A long line indicates that the model has a lot of buildup, and might fill later intersections with traffic, resulting in frustrated drivers and numerous stops if not carefully considered; therefore, it is critical that we minimize both the average queue length and the max queue length with our neural network. 
+
+Because there are several benchmarks, we will consider our model successful if any evaluation metric improves without a meaningful reducing another metric. For example, if average trip time decreases, but the other metrics remain very similar to their threshold results, we will consider the model a success.
+
+\subsection{Neural Network Implementation}
+
+our neural network is implemented through the python libraries traffic control interface (traci) and pytorch. Traci allows us to modify our simulation and get state information within a current timestep, while pytorch allows us to easily build and implement neural networks for our project. 
+
+The first step in designing the proposed neural network is to establish what an agent is, and how they will communicate with the model. Based on existing codebases and research, we decided implementing a decentralized multi agent reinforcement learning model. This specific implementation lacks a central coordinator, and each agent acts on its own in coordination with other agents. The agents were designed to represent an intersection with a traffic signal controller, and could accept the state of the lanes leading to the intersection, the state of the signals, and the states of vehicles at each intersection such as stopped time; it also accepted a list of possible actions the traffic signal controller could perform, which when provided to a deep-q learning model can guess the optimal move.  
+
+After designing an agent we decided to model the simulation environment in python to actually obtain states and actions for each agent. To do this, we used traci to obtain the states of vehicles on the lanes of traffic heading towards a specific traffic light, and assigned them to the traffic light. We then grabbed the possible state of actions, again assigning it to said traffic signal. This is neccessary for computing optimal actions later. We gather these every 5 seconds in the simulation, which greatly increases performance, and prevents rapidly switching signals during learning. 
+
+Our intitial plan was to predict the optimal states of every intersection with a traffic signal controller in Starkville, MS, however, upon implementation we realized our available hardware and timeframe would not allow us to do this. Instead, we opted to only use what we decided were points of interest, or intersections where traffic is particularly backed up. Most of these points were decided by considering the importance of the road, the time spent at intersections, and personal experience. This way we don't waste computational resources at intersections that see little traffic, or do fine directing traffic on their own. Doing so significantly decreases the computational requirements to run the model, and also allows us to focus only on important points. 
+
+Our model does not have preset correct moves, which makes designing a neural network a very difficult task. Therefore, its important to choose a (non supervised), q-score, action, learn. 
+
+implementing benchmarks
+
+\section{Results over baseline}
 
 \section{ACKNOWLEDGMENT OF LLM USE}
 
