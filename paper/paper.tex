@@ -12,7 +12,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Phase 2 - Literature Survey\\}
+\title{Phase 4 - Literature Survey and Results\\}
 
 \author{
 \IEEEauthorblockN{Jason Weeks}  
@@ -143,7 +143,7 @@ Once SUMO was installed, we downloaded public data for the city of Starkville Mi
 
 Our ultimate goal with this project is to test how neural network influenced traffic signals direct the flow of traffic, so we needed to setup various simulation environments to simulate realistic traffic scenarios within Starkville. To do this, we used SUMO's built in flow generator, with various parameters to result in light, medium, and intense traffic scenarios. This would allow us to test how each method of traffic signal control reacts to various events such as morning and afternoon rush hours, post game traffic, or light summer traffic. 
 
-Using the setup configuration file, we can use SUMO GUI, which comes bundled with the installation package of SUMO. This tools allows us to run a visualization of the simulation with regards to the currently implemented method of traffic signal control, and make observations from the point of view of drivers without quantitative analysis, making observations about our model to make improvements. 
+Using the setup configuration file, we can use SUMO GUI, which comes bundled with the installation package of SUMO. This tools allows us to run a visualization of the simulation with regards to the currently implemented method of traffic signal control, and make observations from the point of view of drivers without quantitative analysis, making observations about our model to make improvements. a
 
 \begin{figure}[H]
     \centering
@@ -171,13 +171,39 @@ The first step in designing the proposed neural network is to establish what an 
 
 After designing an agent we decided to model the simulation environment in python to actually obtain states and actions for each agent. To do this, we used traci to obtain the states of vehicles on the lanes of traffic heading towards a specific traffic light, and assigned them to the traffic light. We then grabbed the possible state of actions, again assigning it to said traffic signal. This is neccessary for computing optimal actions later. We gather these every 5 seconds in the simulation, which greatly increases performance, and prevents rapidly switching signals during learning. 
 
-Our intitial plan was to predict the optimal states of every intersection with a traffic signal controller in Starkville, MS, however, upon implementation we realized our available hardware and timeframe would not allow us to do this. Instead, we opted to only use what we decided were points of interest, or intersections where traffic is particularly backed up. Most of these points were decided by considering the importance of the road, the time spent at intersections, and personal experience. This way we don't waste computational resources at intersections that see little traffic, or do fine directing traffic on their own. Doing so significantly decreases the computational requirements to run the model, and also allows us to focus only on important points. 
+Our intitial plan was to predict the optimal states of every intersection with a traffic light in Starkville, MS, however, upon implementation we realized our available hardware and timeframe would not allow us to do this. Instead, we opted to only use what we decided were points of interest, or intersections where traffic is particularly backed up. Most of these points were decided by considering the importance of the road, the time spent at intersections, and personal experience. This way we don't waste computational resources at intersections that see little traffic, or do fine directing traffic on their own. Doing so significantly decreases the computational requirements to run the model, and also allows us to focus only on important points. 
 
 Our model does not have preset correct moves, which makes designing a neural network a very difficult task. Therefore, its important to choose a (non supervised), q-score, action, learn. 
 
 implementing benchmarks
 
 \section{Results over baseline}
+
+In order to evaluate our model we did two tests, a qualitative analysis, which involves viewing the simulation to compare the original simulation to the baseline, and quantitative analysis where benchmarks were ran to evaluate the model with numbers representing the time taken driving and length of queues. Both methods are critical to effective analysis of the model. While training involved generating various traffic scenarios, or events where cars start at one point and end at another point, our testing involves one scenario, which uses similar traffic patterns seen to training. Using a single traffic scenario allows us to make observations of threshold and neural network based signals. This ensures that while testing, each vehicle has takes the same route so we can observe how our traffic signal management system performs relative to other methods. 
+
+\subsection{qualitative analysis}
+
+When observing the baseline threshold based traffic signals, it did an acceptable job managing light-medium traffic (2000 vehicles per hour), but saw relative redundance with lights changing while no cars were in the opposite direction, causing congestion on major roads. It felt familiar, with minor traffic on less congested roads, such as backroads connected to highways and highways without traffic stops, but was certainly not as effective as possible. 
+
+The MARL Deep Q-learning model saw noteable improvements in terms of responsiveness. When there was no signs of incoming traffic or lines in stoped lanes, it skipped the redunancy of changing the state of traffic lights resulting in a generally smoother flow of traffic. When it did change, it seemed intelligent, considering how long cars have been waiting along with how many cars were waiting. While our model did not allow collisions to be considered, the more continuous flow of traffic saw less emergency stops, and generally safer roads. Analysis also revealed that vehicles would often arrive at their destination sooner than their threshold counterparts, with less time spent on the road generally resulting in safer roads with less congestion.  
+
+There were some limitations of MARL Deep Q-learning despite its generally better analysis. Oftentimes, a light would not change for long periods of times to direct more intense traffic at the expense of shorter lines. This would generally result in shorter average drive lengths, with one drive taking exceptionally long. This was relatively controlled, however, with no cars getting completely stuck, and eventually being directed even if it took a minute. It was also important to choose the right intersections as points of interest, as intersections with little to no congestion would flip their signals the moment a car came to an intersection. It was generally better for areas with extremely light traffic to stick with threshold signals. For points like these, a potentially better option is sensor based traffic signal controllers, which use more concrete rules to change traffic, but make observations similar to our learning model to inform these decisions. 
+
+\subsection{quantitative analysis}
+
+While simple observations provide great insight to the performance of our model, numbers to support our observations are potentially more important. As mentioned earlier, we developed several benchmarks based on the results of a simulation. Each benchmark provides a real insight that indicates the perforamnce of a traffic signal control method without the need to make observations. 
+
+The first benchmark was..
+
+the seconds
+
+fourth
+
+last
+
+\subsection{Analysis of overall results}
+
+yadieaisdfj;asdkf
 
 \section{ACKNOWLEDGMENT OF LLM USE}
 

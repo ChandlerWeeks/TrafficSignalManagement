@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 APR 2025 16:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  27 APR 2025 11:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -329,6 +329,7 @@ Package pdftex.def Info: SUMO_RUNNING.png  used on input line 150.
 
 [5]
 
+
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
 
@@ -341,11 +342,7 @@ Before submitting the final camera ready copy, remember to:
 
 
 
-
-
-[6
-
-] (./paper.aux)
+[6] (./paper.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -354,13 +351,13 @@ L3 programming layer <2025-01-18>
 Here is how much of TeX's memory you used:
  4295 strings out of 473190
  66903 string characters out of 5715801
- 490540 words of memory out of 5000000
+ 490394 words of memory out of 5000000
  27520 multiletter control sequences out of 15000+600000
  587700 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,8n,65p,1668b,266s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (6 pages, 316465 bytes).
+Output written on paper.pdf (6 pages, 319288 bytes).
 PDF statistics:
  46 PDF objects out of 1000 (max. 8388607)
  25 compressed objects within 1 object stream
