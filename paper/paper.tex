@@ -7,7 +7,7 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
-\usepackage{float} % Add this in your preamble if not included
+\usepackage{float} 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -91,23 +91,6 @@ One current research gap is the types of models used. Early MARL models used var
 Another research gap regards real-world application. Several large cities have adapted deep learning techniques for traffic signal processing, though a large majority of cities do not yet have these technologies implemented. Therefore, they could see a change in performance depending on the size of the city and their road systems. 
 
 A third research gap appears to be the influence of various real-world distractions that can occur, ranging from road accidents, pedestrians, and emergency vehicles. Although Du et al. have begun to take into account pedestrians \cite{13}, there are still several factors that remain unaccounted for in the traffic signal prediction process, which can back up traffic worse than threshold options.
-
-\section*{Work Distribution}
-The majority of research findings were made by Jason Weeks and Andrew McBride with help from Andrei by branching out from the original CityFlow paper \cite{7} and finding predecessors and related articles in the field. 
-
-Based on the research findings, Jason Weeks, Jacquies Turner, and Andrew McBride contributed to the research taxonomy and timelines. These were made by narrowing down the most important research articles in our original findings.  
-
-This paper was primarily written by Jason Weeks, but all the members contributed. 
-
-The final distribution of the work is as follows. 
-
-\begin{itemize}
-    \item 25\% - Jason Weeks
-    \item 25\% - Andrew McBride
-    \item 25\% - Jacquies Turner
-    \item 25\% - Andrei Roskelley Garcia
-\end{itemize}
-
 
 \section{Simulation Environment and Data Preparation}
 
@@ -210,21 +193,60 @@ There were some limitations of MARL Deep Q-learning despite its generally better
 
 While simple observations provide great insight into the performance of our model, numbers to support our observations are potentially more important. As mentioned earlier, we developed several benchmarks based on the results of a simulation. Each benchmark provides a real insight that indicates the performance of a traffic signal control method without the need to make observations. 
 
-The first benchmark was..
+Testing the average trip time was one of the most important benchmarks implemented, since longer trips result in less cars on the road and a shorter time spent on the road, the odds of a traffic incident decreases dramatically. When using traditional threshold signals the average trip time took 695.34 seconds, or 11 minutes and 34 seconds. When using neural network based traffic signals a noteable decrease in average trip time was observed, decreasing to 587.61 seconds, or 9 minutes and 47 seconds. With a nearly 108 second decrease in average trip time, we saw a 15\% reduction in average trip time. 
 
-the seconds
+We also analyzed time spent waiting for both benchmarks, to see where the decrease in average trip time came from. In theory, this result would come from a decreased wait time, but some of it could come from the decreased traffic and increased speeds associated with better traffic signal management. With threshold signals, the average time spent waiting was 298.4 seconds, but with neural networks this decreased to 195.76 seconds. This resulted in a decrease of 102 seconds, confirming that the decreased wait time significantly contributed to the lower average trip time. 
 
-fourth
+Another important metric to decrease it the average length of stopped cars at any point in time, known as the average queue length. Because our wait time decreased, we can expect a noteable decrease in average queue length, as less cars need to stop and wait. This is confirmed, as we achieve an average queue length of 230 vehicles with threshold neural networks, and a queue length of 55 vehicles when using neural networks. This is an astronomical decrease, with an average of 175 less vehicles being stopped at any point in time.  This is a nearly 76\% decrease in average queue length, indicating a significant imporvement in performance over baselines. 
 
-last
+Fianlly, the maximum length of cars was determined in order to ensure that traffic did not ever back up very bad. Because the average queue length decreased greatly, it is safe to assume that the maximum queue length decreased significantly, which is confirmed by our results. When using traditional threshold signals the maximum queue length reached 1373 vehicles, and the maximum queue length reached 316 vehicles. This indicates that the peak congestion was significantly improved through our model over baselines, preventing large backups which can be frustrating and potentially dangerous.
+
+Each of the benchmarks and their comparison to the baseline can be seen below. 
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Metric} & \textbf{Without Q-Learning} & \textbf{MARL Deep Q-Learning} & \textbf{Change} \\
+\hline
+Avg. Trip Time & 695.34 seconds & 587.61 seconds & ↓107.33 \\
+\hline
+Avg. Waiting Time & 298.40 seconds & 195.76 seconds & ↓102.64 \\
+\hline
+Avg. Queue Length & 230 vehicles & 54.98 vehicles & ↓175.02 \\
+\hline
+Max Queue Length & 1373 vehicles & 316 vehicles & ↓1057 \\
+\hline
+\end{tabular}
+\caption{Performance comparison between Without Q-Learning and MARL Deep Q-Learning.}
+\label{tab:comparison}
+\end{table}
 
 \subsection{Analysis of Overall Results}
 
-yadieaisdfj;asdkf
+Both qualitative and quantitative analysis reveal that deep Q learning is effective at modeling the traffic signal controllers within Starkville Mississippi, and for both traffic speeds and safety the Mississippi Department of Transport (MDOT) should consider updating the traffic signal control methods for points where traffic gets particularly congested. 
+
+With the average time spent driving decreasing drivers are generally safer, and large sections of traffic are less likely to make sudden stops. The shorter queue lengths result in less frustrated drivers, and quicker driving times, which also indicates a smoother flow of traffic and safer roads. This did come at the cost of computational power, resulting in a slower model that took time to train. It does perform faster than real time, but given the wrong situation could slow down the model where it could not make real time predictions; however, because the results were overall positive, there likely exists a cheaper and more efficient way to direct traffic. 
+
+While deep Q-Learning with MARL objectively performed well, computation times were relatively slow and implementation would prove very costly. Because of this, the MDOT should also investigate sensor based traffic signal controllers. These signals are cheaper to install, but consider timers and congestion levels with more strictly defined rules. Implementing these would avoid the high cost of training, implementation, and upkeep. Because using state data increased the performance with neural networks, its likely that a simple understanding of the state of the road could help direct traffic without implementing an expensive and unpredictable model. While still having some cost, it would decrease time spent driving and keep the roads of Mississippi safer. 
 
 \section{ACKNOWLEDGMENT OF LLM USE}
 
 Large language models were not used in the writing or analytical process of writing this paper. However, it was used exclusively to summarize papers during the initial research process, just to ensure that the paper was suitable for our research needs as an aid to abstracts. Not every paper analyzed was used. 
+
+\section*{Work Distribution}
+The majority of research findings were made by Jason Weeks and Andrew McBride with help from Andrei by branching out from the original CityFlow paper \cite{7} and finding predecessors and related articles in the field. 
+
+Based on the research findings, Jason Weeks, Jacquies Turner, and Andrew McBride contributed to the research taxonomy and timelines. These were made by narrowing down the most important research articles in our original findings.  
+
+The final distribution of the work is as follows. 
+
+\begin{itemize}
+    \item 25\% - Jason Weeks
+    \item 25\% - Andrew McBride
+    \item 25\% - Jacquies Turner
+    \item 25\% - Andrei Roskelley Garcia
+\end{itemize}
 
 \section*{Reference Acknowledgment}
 References \cite{1} through \cite{15} highlight the most significant contributions to the study of traffic signal control using machine learning techniques. They highlight how the research has progressed over time and should help guide the development of a model for traffic prediction. 
