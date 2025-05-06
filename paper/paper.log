@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  28 APR 2025 18:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  6 MAY 2025 15:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -315,47 +315,65 @@ Underfull \hbox (badness 6526) in paragraph at lines 151--152
 
 
 
-
-
-[4]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 155.
- (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 154.
+(/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 170.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 169.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 170.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 169.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 6775) in paragraph at lines 176--177
+Underfull \hbox (badness 6775) in paragraph at lines 175--176
 []\OT1/ptm/m/n/10 On the en-vi-ron-ment side (multi[]env.py, sub-class-ing
  []
 
 
 
+[4]
+<Reward.png, id=32, 402.50375pt x 217.81375pt>
+File: Reward.png Graphic file (type png)
+<use Reward.png>
+Package pdftex.def Info: Reward.png  used on input line 187.
+(pdftex.def)             Requested size: 226.79846pt x 122.72931pt.
 
 
-[5]
+
+
+[5 <./Reward.png>]
 
 LaTeX Info: Symbol \textdownarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 212.
+            Default family used instead on input line 225.
 LaTeX Info: Symbol \textdownarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 214.
+            Default family used instead on input line 227.
 LaTeX Info: Symbol \textdownarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 216.
+            Default family used instead on input line 229.
 LaTeX Info: Symbol \textdownarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 218.
+            Default family used instead on input line 231.
 
-Overfull \hbox (46.30363pt too wide) in paragraph at lines 208--221
- [][] 
+Underfull \hbox (badness 10000) in paragraph at lines 250--251
+[]\OT1/ptm/m/n/10 In or-der to down-load the code one would
  []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--251
+\OT1/ptm/m/n/10 need to go to github, and view chan-dler-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--251
+\OT1/ptm/m/n/10 https://github.com/ChandlerWeeks/TrafficSignalManagement.
+ []
+
+
+Underfull \vbox (badness 3460) has occurred while \output is active []
 
 
 
@@ -385,18 +403,18 @@ L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 4370 strings out of 473190
- 68013 string characters out of 5715801
- 486651 words of memory out of 5000000
- 27579 multiletter control sequences out of 15000+600000
+ 4378 strings out of 473190
+ 68140 string characters out of 5715801
+ 484382 words of memory out of 5000000
+ 27587 multiletter control sequences out of 15000+600000
  594483 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,8n,65p,1912b,266s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (8 pages, 407978 bytes).
+Output written on paper.pdf (8 pages, 431067 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
+ 102 PDF objects out of 1000 (max. 8388607)
  59 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

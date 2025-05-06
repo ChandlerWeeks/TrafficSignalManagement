@@ -174,7 +174,21 @@ and minimize the mean‐squared error between predictions and targets. After eac
 
 On the environment side (multi\_env.py, subclassing BaseEnv), we employ the Python library TraCI (traffic control interface) to simulate traffic in Starkville, MS. Our initial plan was to predict the optimal states of every intersection with a traffic light in Starkville, MS, however, upon implementation, we realized our available hardware and the time frame would not allow us to do this. Instead, we opted to only use what we decided were points of interest, or intersections where traffic is particularly heavy and prone to congestion. Most of these points were decided by considering the importance of the road, the typical time spent at intersections, and personal experience. This method ensures that we don't expend computational resources at intersections that either see little traffic or do fine managing traffic on their own. Doing so significantly decreases the computational requirements to run the model, and allows us to focus only on critical points. At startup we invoke traci.start with a step length of 0.1s and a control interval of 5s, disabling verbose logs to save overhead. We automatically collect, for each traffic‐light signal (TLS), the set of incoming lanes by inspecting traci.trafficlight.getControlledLinks. For every control step, get\_state() returns a list of queue lengths, i.e.\ the number of halting vehicles per lane, by calling traci.lane.getLastStepHaltingNumber on each lane. We then compute a scalar reward for each TLS as the negative sum of its queue lengths, which incentivizes the agents to minimize congestion. When step(actions) is called, we apply each agent’s chosen phase via traci.trafficlight.setPhase, advance the simulation by the control interval, and then return the new state, reward list, and a done flag (triggered when no vehicles remain).
 
-The overall training loop lives in main.py, which begins by parsing our configuration file. This configuration specifies 500 training episodes, an agent name ``multi\_dqn,'' and all key hyperparameters (learning rate, $\gamma$, $\varepsilon$ schedule, hidden‐layer sizes, buffer and batch sizes, and target‐update frequency). For each episode, we reset the environment, then for up to 2,400 steps (equivalent to 0.75 hours of simulated time) we query the multi‐agent for actions, step the environment, store transitions, and trigger a learning update immediately. Episode returns (the sum of all TLS rewards) are logged each episode, and upon completion of training, we save each agent’s weights to disk. A similar loop runs in evaluation mode (with greedy action selection and no learning) to report average performance over ten episodes.
+The overall training loop lives in main.py, which begins by parsing our configuration file. This configuration specifies 200 training episodes, an agent name ``multi\_dqn,'' and all key hyperparameters (learning rate, $\gamma$, $\varepsilon$ schedule, hidden‐layer sizes, buffer and batch sizes, and target‐update frequency). For each episode, we reset the environment, then for up to 2,400 steps (equivalent to 0.75 hours of simulated time) we query the multi‐agent for actions, step the environment, store transitions, and trigger a learning update immediately. Episode returns (the sum of all TLS rewards) are logged each episode, and upon completion of training, we save each agent’s weights to disk. A similar loop runs in evaluation mode (with greedy action selection and no learning) to report average performance over ten episodes.
+
+\subsection{Cross Validation}
+
+One potential concern over the implementation of our model is not the model itself, but the trustworthiness of the results. As a result, the design of the model took careful consideration into preparing valid results through cross validation and critical analysis. Various situations were considered for training, while only a single traffic scenario was used for testing and benhcmarking. 
+
+The first way we validated our results is by creating new scenarios. Each Episode of the model sees a completely new traffic scenario within Starkville, MS, granted with similar size due to computational limitations of large scale traffic. We then printed the reward, the punishment part of the Q-score each episode the ensure progress and exploration, and the results reveal relative consistency with a strong balance of exploration and exploitation. Even with new situations, the score grew and grew over time (please note that the reward is negative). The model was trained for 150 episodes in this scenario, to reach convergance while exploring as much as possible. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Reward.png}
+    \caption{Reward over 150 Episodes}
+\end{figure}
+
+During our benchmarking phase we generated one testing scenario. This scenario uses a moderate-light traffic, based on Starkville, Mississippi's population and is used as a baseline to ensure that the improved results are not a result of a more or less congested traffic pattern. When we run the benchmarks we carefully ensured that this was performed to make sure results are trustworthy, and the the model did not opimize only one single situation it saw. When doing this, the results were overwhelmingly positive, and ensures that MARL based Deep Q-Learning is a valid way to optimize traffic signal controllers, as seen in section ``Results over baseline.``
 
 \section{Results over baseline}
 
@@ -202,22 +216,22 @@ Finally, the maximum length of cars was determined in order to ensure that traff
 
 Each of the benchmarks and their comparison to the baseline can be seen below. 
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|c|c|c|}
 \hline
-\textbf{Metric} & \textbf{Without Q-Learning} & \textbf{MARL Deep Q-Learning} & \textbf{Change} \\
+\textbf{Metric} & \textbf{Without Q-Learning} & \textbf{Deep Q-Learning} & \textbf{Change} \\
 \hline
-Avg. Trip Time & 695.34 seconds & 587.61 seconds & ↓107.33 \\
+Trip Time & 695.34 seconds & 587.61 seconds & ↓107.33 \\
 \hline
-Avg. Waiting Time & 298.40 seconds & 195.76 seconds & ↓102.64 \\
+Waiting Time & 298.40 seconds & 195.76 seconds & ↓102.64 \\
 \hline
-Avg. Queue Length & 230 vehicles & 54.98 vehicles & ↓175.02 \\
+Avg. Queue& 230 vehicles & 54.98 vehicles & ↓175.02 \\
 \hline
-Max Queue Length & 1373 vehicles & 316 vehicles & ↓1057 \\
+Max Queue & 1373 vehicles & 316 vehicles & ↓1057 \\
 \hline
 \end{tabular}
-\caption{Performance comparison between Without Q-Learning and MARL Deep Q-Learning.}
+\caption{Performance comparison between Without Q-Learning and Deep Q-Learning.}
 \label{tab:comparison}
 \end{table}
 
@@ -229,9 +243,29 @@ With the average time spent driving decreasing drivers are generally safer, and 
 
 While deep Q-Learning with MARL objectively performed well, computation times were relatively slow and implementation would prove very costly. Because of this, the MDOT should also investigate sensor based traffic signal controllers. These signals are cheaper to install, but consider timers and congestion levels with more strictly defined rules. Implementing these would avoid the high cost of training, implementation, and upkeep. Because using state data increased the performance with neural networks, its likely that a simple understanding of the state of the road could help direct traffic without implementing an expensive and unpredictable model. While still having some cost, it would decrease time spent driving and keep the roads of Mississippi safer. 
 
+\section{The Codebase and Demoing}
+
+\subsection{Installation}
+
+In order to download the code one would need to go to github, and view chandlerweeks/TrafficSignalManagement. The link to the repository is: https://github.com/ChandlerWeeks/TrafficSignalManagement. Once here, fork the repository and make a local clone on your device. If a release is available at the time of reading the paper, that link will allow direct access of the codebase. 
+
+The model was not designed within a virtual environment, due to conflicts between operating systems of installations, so one will need to install the dependencies for the code beforehand, most noteably traci, likely via the pip install traci through a terminal. 
+
+In order to run the code, SUMO will also need to be installed, following SUMO's tutorial for installation for the necessary operating system. Once installed, the path variables will need to be set for sumo and sumo-gui in order for the code to run.
+
+\subsection{Live Demo}
+
+Once every prerequisite has been setup, to test installation and configuration, one should open SUMO-gui and open the file in data/simulation.sumocfg. If the file runs and traffic is observed, then the testing traffic flow scenario has been loaded and the code is ready to run. 
+
+-- running training
+
+-- running testing
+
 \section{ACKNOWLEDGMENT OF LLM USE}
 
 Large language models were not used in the writing or analytical process of writing this paper. However, it was used exclusively to summarize papers during the initial research process, just to ensure that the paper was suitable for our research needs as an aid to abstracts. Not every paper analyzed was used. 
+
+Large language models were used in assistance of coding, particularly for debugging and assistance with small code snippets, but never used to generate large parts of a funciton, or codebits. The code is developed by human, but AI assisted with some lines. 
 
 \section*{Work Distribution}
 The majority of research findings were made by Jason Weeks and Andrew McBride with help from Andrei by branching out from the original CityFlow paper \cite{7} and finding predecessors and related articles in the field. 
