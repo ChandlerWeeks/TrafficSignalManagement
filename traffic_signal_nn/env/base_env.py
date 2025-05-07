@@ -1,12 +1,6 @@
 import traci
 
 class BaseEnv:
-    """
-    SUMO wrapper:
-        • sumo_dt  – internal SUMO step length   (0.1 s default)
-        • ctrl_dt  – RL control interval         (5 s  default)
-    """
-
     def __init__(self, cfg: dict, sumo_dt: float = 0.1, ctrl_dt: float = 5.0):
         self.sumo_bin = cfg.get("SUMO_BINARY", "sumo")
         self.sumocfg  = cfg["SUMO_CFG"]

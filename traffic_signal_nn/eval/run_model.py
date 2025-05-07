@@ -1,16 +1,8 @@
 #!/usr/bin/env python3
-"""
-run_model.py
-
-Load a trained multi-DQN traffic signal agent and run the SUMO simulation until completion.
-"""
 import os
 import sys
 import argparse
 import traci
-
-# Make sure project root is on PYTHONPATH when running as module
-#sys.path.append(os.path.abspath(os.path.join(__file__, '..')))
 
 from traffic_signal_nn.env.multi_env      import CityEnv
 from traffic_signal_nn.utils.config_parser import load_config
