@@ -257,9 +257,9 @@ In order to run the code, SUMO will also need to be installed, following SUMO's 
 
 Once every prerequisite has been setup, to test installation and configuration, one should open SUMO-gui and open the file in data/simulation.sumocfg. If the file runs and traffic is observed, then the testing traffic flow scenario has been loaded and the code is ready to run. 
 
--- running training
+In order to run training, navigate to the TrafficSignalManagement file in a terminal instance and run the provided command. \texttt{\texttt{python traffic\_signal\_nn/main.py --config traffic\_signal\_nn/config/config\_dqn\_city.ini train}}. Common errors include not having SUMO variables added to the path, and not having pip modules installed. Each episode will run, taking about a minute to simulate an hour of traffic. The reward will be printed to the console to let the user observe the loss, to see when the model explores and when it converges. The code can take hours at a time to run, and a demo can be provided if necessary, via youtube. 
 
--- running testing
+In order to benchmark the baseline for SUMO, the scripts benchmark.py and get\_queue\_length.py were developed. benchmark simply gets the results of the runtime through the file data/output/tripinfo.xml. It contains information about the trip, such as average trip time, average waiting time, and average delay, but does not contain information on average queue length. Before running benchmarks, it is important to run the get queue length script, which obtains the average queue lengths seperate from what SUMO provides. One must run the benchmark scenario provided through simulation.sumocfg within SUMO-gui to get the correct output. 
 
 \section{ACKNOWLEDGMENT OF LLM USE}
 
