@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  7 MAY 2025 12:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  7 MAY 2025 13:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -402,12 +402,98 @@ Overfull \hbox (12.0pt too wide) in paragraph at lines 260--261
 \OT1/pcr/m/n/10 traffic_signal_nn/config/config_dqn_city.ini
  []
 
+LaTeX Font Info:    Trying to load font information for OMS+pcr on input line 262.
+(/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omspcr.fd
+File: omspcr.fd 
+)
+LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 262.
 
-Underfull \hbox (badness 1910) in paragraph at lines 262--263
-[]\OT1/ptm/m/n/10 In or-der to bench-mark the base-line for SUMO, the
+Underfull \hbox (badness 4036) in paragraph at lines 262--263
+\OT1/ptm/m/n/10 bench-mark.py and get[]queue[]length.py were de-vel-oped.
  []
 
 
+Underfull \hbox (badness 3482) in paragraph at lines 262--263
+\OT1/ptm/m/n/10 the file data/output/tripinfo.xml. It con-tains in-for-ma-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 262--263
+\OT1/pcr/m/n/10 benchmark.py \OT1/ptm/m/n/10 af-ter run-ning the sim-u-la-tion, along
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 262--263
+\OT1/ptm/m/n/10 with \OT1/pcr/m/n/10 python .\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 get_queue_length.py --config
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 262--263
+\OT1/pcr/m/n/10 .\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 data\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 simulation.sumocfg --output
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 262--263
+\OT1/pcr/m/n/10 .\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 data\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 output\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 queue_length.csv \OT1/ptm/m/n/10 to de-ter-mine
+ []
+
+
+
+
+Underfull \hbox (badness 3579) in paragraph at lines 264--265
+\OT1/ptm/m/n/10 This can be ran through this com-mand \OT1/pcr/m/n/10 python -m
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 264--265
+\OT1/pcr/m/n/10 traffic_signal_nn.eval.run_model --config
+ []
+
+
+Overfull \hbox (14.5pt too wide) in paragraph at lines 264--265
+\OT1/pcr/m/n/10 traffic_signal_nn/config/config_dqn_city.ini\OT1/ptm/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 3735) in paragraph at lines 264--265
+\OT1/ptm/m/n/10 which runs the trained model on the same sit-u-a-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 264--265
+\OT1/ptm/m/n/10 as the pre-vi-ous bench-mark, for con-sis-tency as
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 264--265
+\OT1/ptm/m/n/10 men-tioned in cross-validation. Just like with-out the
+ []
+
+
+Underfull \hbox (badness 2970) in paragraph at lines 264--265
+\OT1/ptm/m/n/10 neu-ral net-work, the queue length is not ob-tained for
+ []
+
+
+Underfull \hbox (badness 5652) in paragraph at lines 264--265
+\OT1/ptm/m/n/10 the bench-marks, so one will need to run \OT1/pcr/m/n/10 python
+ []
+
+
+Overfull \hbox (45.00005pt too wide) in paragraph at lines 264--265
+\OT1/pcr/m/n/10 .\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 traffic_signal_nn\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 eval\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 get_model_queue_length.py
+ []
+
+
+Overfull \hbox (75.00005pt too wide) in paragraph at lines 264--265
+\OT1/pcr/m/n/10 --config .\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 traffic_signal_nn\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 config\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 config_dqn_city.ini
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 264--265
+\OT1/pcr/m/n/10 --output .\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 data\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 output\OMS/cmsy/m/n/10 n\OT1/pcr/m/n/10 queue_length.csv \OT1/ptm/m/n/10 in
+ []
 
 
 
@@ -440,15 +526,15 @@ L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 4378 strings out of 473190
- 68140 string characters out of 5715801
- 493758 words of memory out of 5000000
- 27587 multiletter control sequences out of 15000+600000
+ 4398 strings out of 473190
+ 68497 string characters out of 5715801
+ 492164 words of memory out of 5000000
+ 27604 multiletter control sequences out of 15000+600000
  594483 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,8n,65p,1912b,266s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper.pdf (9 pages, 432530 bytes).
+Output written on paper.pdf (9 pages, 434070 bytes).
 PDF statistics:
  105 PDF objects out of 1000 (max. 8388607)
  61 compressed objects within 1 object stream
